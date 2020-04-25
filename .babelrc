@@ -1,0 +1,21 @@
+{
+  "presets": [
+    [
+        "env",
+        { "modules": "commonjs", "targets": {"node": "current"} }
+    ],
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-runtime"
+  ],
+  "comments": false,
+  "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"],
+      "presets": [
+        ["env", { "targets": { "node": "current" }}]
+      ]
+    }
+  }
+}
