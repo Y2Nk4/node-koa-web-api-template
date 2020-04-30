@@ -1,5 +1,5 @@
-import user from '../models/user.js'
-import userResource from '../resources/user'
+import user from '../models/User.js'
+import userResource from '../resources/User'
 
 const getUserInfo = async function (ctx) {
     const result = await user.getUserById(ctx.state.user.id) // JWT Authorization infos are stored in ctx.state.user
