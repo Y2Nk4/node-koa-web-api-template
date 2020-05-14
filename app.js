@@ -14,6 +14,10 @@ import koaBodyparser from 'koa-bodyparser'
 import KoaValidate from 'koa-validate'
 import responses from './server/helpers/responses';
 
+// 加载sequelize的关联
+require('./server/config/db')
+require('./server/config/association')
+
 const app = new Koa()
 const router = koaRouter()
 KoaValidate(app)
