@@ -85,7 +85,6 @@ app.use(koaBodyparser())
             await next()
         } catch (err) {
             //  如果JWT验证失败，返回验证失败信息
-            ctx._logger.log(err)
             if (err.status === 401) {
                 ctx.status = 401
                 ctx.body = {
