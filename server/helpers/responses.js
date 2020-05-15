@@ -6,8 +6,9 @@ export default {
         }
     },
 
-    error (message, code = 200) {
-        return {
+    error (message, statusCode = 200) {
+        this.status = statusCode
+        this.body = {
             success: false,
             error: message
         }

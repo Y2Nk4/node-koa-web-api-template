@@ -1,7 +1,6 @@
 import './env'
 import Koa from 'koa'
 import json from 'koa-json'
-import logger from 'koa-logger'
 import auth from './server/routes/auth.js'
 import api from './server/routes/api.js'
 import publicApi from './server/routes/public_api.js'
@@ -12,7 +11,44 @@ import historyApiFallback from 'koa2-history-api-fallback'
 import koaRouter from 'koa-router'
 import koaBodyparser from 'koa-bodyparser'
 import KoaValidate from 'koa-validate'
-import responses from './server/helpers/responses';
+import responses from './server/helpers/responses'
+import accessLogger from './server/middlewares/accessLogger'
+import formatValidationError from './server/helpers/formatValidationError'
+
+// log处理
+const log4js = require('koa-log4')
+const { levels } = require('koa-log4')
+log4js.configure({
+    appenders: {
+        access: {
+            type: 'dateFile',
+            pattern: '-yyyy-MM-dd.log', // 生成文件的规则
+            filename: path.join('logs/', 'access.log') // 生成文件名
+        },
+        application: {
+            type: 'dateFile',
+            pattern: '-yyyy-MM-dd.log',
+            filename: path.join('logs/', 'application.log')
+        },
+        database: {
+            type: 'dateFile',
+            pattern: '-yyyy-MM-dd.log',
+            filename: path.join('logs/', 'database.log')
+        },
+        out: {
+            type: 'console'
+        }
+    },
+    categories: {
+        default: { appenders: [ 'out' ], level: 'WARN' },
+        access: { appenders: [ 'access' ], level: 'all' },
+        middleware: { appenders: [ 'out' ], level: 'all' },
+        database: { appenders: [ 'database' ], level: 'all' },
+        application: { appenders: [ 'application', 'out' ], level: 'all' },
+        SteamBot: { appenders: [ 'application', 'out' ], level: 'all' }
+    },
+    replaceConsole: true
+})
 
 // 加载sequelize的关联
 require('./server/config/db')
@@ -25,43 +61,48 @@ KoaValidate(app)
 let port = process.env.PORT
 
 app.use(koaBodyparser())
-app.use(json())
-app.use(logger())
-
-app.use(async function (ctx, next) {
-    let start = new Date()
-    await next()
-    let ms = new Date() - start
-    console.log('%s %s - %s', ctx.method, ctx.url, ms)
-})
-
-app.use(async function (ctx, next) {
-    ctx.success = responses.success.bind(ctx)
-    await next()
-})
-
-app.use(async function (ctx, next) {  //  如果JWT验证失败，返回验证失败信息
-    try {
-        await next()
-    } catch (err) {
-        console.log(err)
-        if (err.status === 401) {
-            ctx.status = 401
-            ctx.body = {
-                success: false,
-                token: null,
-                error: 'Unauthorized Access'
-            }
-        } else {
-            throw err
+    .use(json())
+    .use(accessLogger) // 美化访问日志(logger是middleware)
+    // 记录访问日志
+    .use(log4js.koaLogger(log4js.getLogger('access'), {
+        level: 'auto',
+        levelMapper: function (statusCode) {
+            if (statusCode >= 400) return levels.ERROR
+            if (statusCode >= 300) return levels.WARN
+            return levels.INFO
         }
-    }
-})
-
-app.use(async (ctx, next) => {
-    ctx.set('X-Powered-By', process.env.X_POWERED_BY || 'koa')
-    await next()
-})
+    }))
+    .use(async function (ctx, next) {
+        ctx.success = responses.success.bind(ctx)
+        ctx.formatValidationError = formatValidationError.bind(ctx)
+        ctx.error = responses.error.bind(ctx)
+        ctx._logger = log4js.getLogger('application')
+        await next()
+    })
+    .use(async function (ctx, next) {
+        // 错误处理
+        try {
+            await next()
+        } catch (err) {
+            //  如果JWT验证失败，返回验证失败信息
+            ctx._logger.log(err)
+            if (err.status === 401) {
+                ctx.status = 401
+                ctx.body = {
+                    success: false,
+                    token: null,
+                    error: 'Unauthorized Access'
+                }
+            } else {
+                ctx._logger.error(err)
+                ctx.error(process.env.ENV === 'DEV' ? err.message : 'Internal Server Error', 500)
+            }
+        }
+    })
+    .use(async (ctx, next) => {
+        ctx.set('X-Powered-By', process.env.X_POWERED_BY || 'koa')
+        await next()
+    })
 
 app.on('error', function (err, ctx) {
     console.log('server error', err)
