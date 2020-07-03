@@ -9,6 +9,7 @@ A full-stack, NodeJS-based, Koa2 based web API template
  - [Install](https://github.com/Y2Nk4/node-koa-web-api-template#Install)
  - [To-Dos](https://github.com/Y2Nk4/node-koa-web-api-template#to-dos)
  - [License](https://github.com/Y2Nk4/node-koa-web-api-template#to-dos)
+ - [Database Migrate](https://github.com/Y2Nk4/node-koa-web-api-template#databse-migrate)
 
 ## Modifications
 
