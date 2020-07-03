@@ -1,6 +1,6 @@
 {
   "name": "vue-koa-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Vue.js & Koa project",
   "author": "Molunerfinn <marksz@teamsz.xyz>",
   "private": true,
@@ -102,6 +102,7 @@
     "portfinder": "^1.0.13",
     "rimraf": "^2.6.0",
     "semver": "^5.3.0",
+    "sequelize-cli": "^6.1.0",
     "shelljs": "^0.7.6",
     "url-loader": "^0.5.8",
     "vue-jest": "^2.3.0",

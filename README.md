@@ -4,7 +4,13 @@ A full-stack, NodeJS-based, Koa2 based web API template
 
 :smiley: This project is based on [Molunerfinn/vue-koa-demo](https://github.com/Molunerfinn/vue-koa-demo)
 
-## Modification
+#### Menus
+ - [Modifications](https://github.com/Y2Nk4/node-koa-web-api-template#modification)
+ - [Install](https://github.com/Y2Nk4/node-koa-web-api-template#Install)
+ - [To-Dos](https://github.com/Y2Nk4/node-koa-web-api-template#to-dos)
+ - [License](https://github.com/Y2Nk4/node-koa-web-api-template#to-dos)
+
+## Modifications
 
 :fire: Add API Resources Feature, and response helper functions, just like Laravel
 
@@ -18,7 +24,7 @@ A full-stack, NodeJS-based, Koa2 based web API template
 
 :hand: Improved JWT set-ups
 
-## And Also...
+### And Also...
 
 It has the following characteristics, because it's based on [Molunerfinn/vue-koa-demo](https://github.com/Molunerfinn/vue-koa-demo) ( :laughing: Thanks for original creator, [PiEgg](https://github.com/Molunerfinn))
 
@@ -32,7 +38,7 @@ It has the following characteristics, because it's based on [Molunerfinn/vue-koa
 
 :tada: Docker support
 
-## Modification Details
+### Modification Details
 
 #### :fire: API Resources Feature, and response helper functions
 
@@ -40,14 +46,9 @@ In controller, you could easily use `ctx.success` to return success response
 
 Also, you can define your own API Resource in server/resources, and use it to filter returning data
 
-## To-Dos
-
-1. Add more response helper functions, like `fail`, `json` etc.
-2. Improve API Resource feature
-
 ## Install
 
-`git clone https://github.com/Molunerfinn/vue-koa-demo.git`
+`git clone https://github.com/Y2Nk4/node-koa-web-api-template.git`
 
 `npm install` or `yarn`
 
@@ -63,8 +64,6 @@ please use
 yarn --ignore-engines
 ```
 
-Also you need to install MySQL & create a database named `todolist`,and execute 2 sql files `list.sql` & `user.sql`.They are in `sql/`
-
 After that, create a `.env` file and set the database username & password:
 
 ```env
@@ -76,16 +75,7 @@ DB_PASSWORD=YYYY
 PORT=8889
 ```
 
-If you want to run the test for the Project, please create a `.env.test` file to face this situation:
-
-```env
-# your database username
-DB_USER=XXXX
-# your database
-DB_PASSWORD=YYYY
-# The port which is listened by koa in the test environment
-PORT=8888
-```
+Or you can copy/paste the `.env.example` file, and rename it to `.env`
 
 ### Run
 
@@ -93,7 +83,7 @@ PORT=8888
 
 ### Node.js
 
-Beacuse of using Koa2, `Node.js >= v7.6.0` is needed.
+Because of using Koa2, `Node.js >= v7.6.0` is needed.
 
 #### Development:
 
@@ -101,15 +91,11 @@ Beacuse of using Koa2, `Node.js >= v7.6.0` is needed.
 
 open browser: `localhost:8080`
 
-> tips: login password is 123
-
 #### Production:
 
 `npm run start`
 
 open browser: `localhost:8889`
-
-> tips: login password is 123
 
 #### Test:
 
@@ -124,6 +110,49 @@ open browser: `localhost:8889`
 open browser: `localhost:8889`
 
 > tips: login password is 123
+
+## Databse Migrate
+In order to manage the database in a better way, migration is now supported.
+It's based on Sequelize Cli, and it's configured to adapt with this project.
+
+#### 1.1 To create a new migrations
+```
+npx sequelize-cli migration:generate --name create_example_migration
+```
+This command will create a new migration in `PROJECT_DIR/server/migrations`
+
+About how to use Migrations, you should check this [document from sequelize-cli](https://sequelize.org/master/manual/migrations.html)
+
+#### 1.1 To create a model via sequelize cli **(not recommended)**
+Although I don't recommend you to create a model via sequelize cli,
+you can still use `npx sequelize-cli model:generate` to create a model like this:
+```
+npx sequelize-cli model:generate --name create_example_migration --attributes ...
+```
+This command will create a new migration in `PROJECT_DIR/server/migrations`,
+and a Model file in `PROJECT_DIR/server/models`
+
+Again, it's not recommended right now since the project wasn't designed to use
+`sequelize-cli` originally, but I will try to make it work in the future versions.
+Instead, you should check the example models to define your own models.
+
+#### 2. Migrate
+```
+npx sequelize-cli db:migrate
+```
+
+## To-Dos
+
+1. Add more response helper functions, like `fail`, `json` etc.
+2. Improve API Resource feature
+3. Create models via `sequelize-cli`
+
+## Change Logs
+Change Logs started since v1.0.1, all the works before are some basic works.
+
+`v1.0.1`
+ - Supported using migrations (based on Sequelize Cli)
+
 
 ## License
 
