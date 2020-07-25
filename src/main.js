@@ -6,6 +6,10 @@ import axios from 'axios'
 import router from './router/router'
 import VueRouter from 'vue-router'
 
+/* Antd Vue */
+// import Antd from 'ant-design-vue'
+// import 'ant-design-vue/dist/antd.css'
+
 /* Element UI */
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -16,6 +20,7 @@ import 'echarts-gl'
 
 Vue.prototype.$http = axios // 类似于vue-resource的调用方法
 
+// Vue.use(Antd) // to use Antd Vue
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 Vue.component('v-chart', ECharts)
