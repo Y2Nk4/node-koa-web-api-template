@@ -1,6 +1,6 @@
 {
   "name": "vue-koa-demo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Vue.js & Koa project",
   "author": "Molunerfinn <marksz@teamsz.xyz>",
   "private": true,
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
+    "@koa/cors": "^3.1.0",
     "ant-design-vue": "^1.6.4",
     "async": "^3.2.0",
     "axios": "^0.15.3",

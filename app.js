@@ -15,6 +15,9 @@ import responses from './server/helpers/responses'
 import accessLogger from './server/middlewares/accessLogger'
 import formatValidationError from './server/helpers/formatValidationError'
 
+// cors
+const cors = require('@koa/cors')
+
 // log处理
 const log4js = require('koa-log4')
 const { levels } = require('koa-log4')
@@ -102,6 +105,16 @@ app.use(koaBodyparser())
         ctx.set('X-Powered-By', process.env.X_POWERED_BY || 'koa')
         await next()
     })
+    .use(cors({
+        origin (ctx) {
+            // When the project is in development mode, it will accepts all origins
+            if (process.env.ENV === 'DEV') {
+                return ctx.get('Origin')
+            } else {
+                return process.env.CROS_ORIGINS || ''
+            }
+        }
+    }))
 
 app.on('error', function (err, ctx) {
     console.log('server error', err)

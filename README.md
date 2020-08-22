@@ -13,6 +13,8 @@ A full-stack, NodeJS-based, Koa2 based web API template
 
 ## Modifications
 
+Supported CORS 
+
 :fire: Add API Resources Feature, and response helper functions, just like Laravel
 
 :umbrella: Add validation-error-catch feature
@@ -150,6 +152,9 @@ npx sequelize-cli db:migrate
 
 ## Change Logs
 Change Logs started since v1.0.1, all the works before are some basic works.
+
+`v1.0.2`
+ - Supported CORS, now you can set the cors origin in the `.env` file
 
 `v1.0.1`
  - Supported using migrations (based on Sequelize Cli)
