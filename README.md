@@ -13,7 +13,7 @@ A full-stack, NodeJS-based, Koa2 based web API template
 
 ## Modifications
 
-Supported CORS 
+Supported CORS
 
 :fire: Add API Resources Feature, and response helper functions, just like Laravel
 
@@ -92,6 +92,8 @@ Because of using Koa2, `Node.js >= v7.6.0` is needed.
 
 `npm run dev` && `npm run server`
 
+use `npm run lint-nodemon` to run nodemon with ESLint
+
 open browser: `localhost:8080`
 
 #### Production:
@@ -140,8 +142,16 @@ Again, it's not recommended right now since the project wasn't designed to use
 Instead, you should check the example models to define your own models.
 
 #### 2. Migrate
-```
+```shell script
 npx sequelize-cli db:migrate
+```
+To rollback
+```shell script
+sequelize-cli db:migrate:undo
+```
+Or to rollback a specific migration
+```shell script
+db:migrate:undo --name {{migration_file_name}}.js
 ```
 
 ## To-Dos
