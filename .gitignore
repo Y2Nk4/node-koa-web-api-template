@@ -9,3 +9,5 @@ coverage/
 !.env.example
 .coveralls.yml
 yarn-error.log
+
+logs
