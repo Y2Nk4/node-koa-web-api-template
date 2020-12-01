@@ -128,7 +128,27 @@ This command will create a new migration in `PROJECT_DIR/server/migrations`
 
 About how to use Migrations, you should check this [document from sequelize-cli](https://sequelize.org/master/manual/migrations.html)
 
-#### 1.1 To create a model via sequelize cli **(not recommended)**
+#### 1.1 To create a model via command line **(not recommended)**
+#### Via simple script
+Here is a command to generate a model that fits in this project:
+```shell script
+node scripts\gen_model.js -m TestTable -t table_name
+```
+```shell script
+Usage: node scripts\gen_model.js [options]
+
+Options:
+  -V, --version         output the version number
+  -m, --model <string>  Name of the model you want to create
+  -t, --table <string>  Name of the table you want to bind your model to
+  -h, --help            display help for command
+```
+Note: The template of the model is on '{project_dir}/script/
+templates/gen_model.template'
+
+You can modify it to whatever you want
+
+#### Via sequelize-cli
 Although I don't recommend you to create a model via sequelize cli,
 you can still use `npx sequelize-cli model:generate` to create a model like this:
 ```
@@ -168,6 +188,9 @@ Change Logs started since v1.0.1, all the works before are some basic works.
 
 `v1.0.1`
  - Supported using migrations (based on Sequelize Cli)
+
+`v1.0.2`
+ - Supported using add Model via command line (based on commander.js & string-template)
 
 
 ## License

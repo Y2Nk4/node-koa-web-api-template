@@ -1,21 +1,23 @@
 import sequelize from '../config/db'
 
 let Sequelize = require('sequelize')
-let {Model} = Sequelize
+let { Model } = Sequelize
 
-class Service extends Model {
+class GenTableViaScript extends Model {
+
 }
 
-Service.init({
+GenTableViaScript.init({
     id: {
         type: Sequelize.BIGINT,
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true
     },
-    user_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
+
+    // Model Properties Here
+
+    // 基本时间信息
     created_at: {
         type: Sequelize.DATE,
         defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
@@ -29,10 +31,10 @@ Service.init({
 }, {
     sequelize,
     freezeTableName: true,
-    tableName: 'services',
+    tableName: 'gen_table_via_scripts',
     createdAt: false,
     updatedAt: false
 })
 
-export default Service
-module.exports = Service
+export default GenTableViaScript
+module.exports = GenTableViaScript

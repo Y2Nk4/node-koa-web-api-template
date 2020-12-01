@@ -1,7 +1,7 @@
 import sequelize from '../config/db'
 
-let Sequelize = require('sequelize'),
-    {Model} = Sequelize
+let Sequelize = require('sequelize')
+let {Model} = Sequelize
 
 class User extends Model {
     static async getUserById (id) {
@@ -49,7 +49,7 @@ User.init({
     is_banned: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
-        allowNull: false,
+        allowNull: false
     },
     created_at: {
         type: Sequelize.DATE,

@@ -1,10 +1,10 @@
-let log4js = require('koa-log4'),
-    logger = log4js.getLogger('middleware'),
-    // eslint-disable-next-line no-unused-vars
-    colors = require('colors'),
-    Counter = require('passthrough-counter'),
-    humanize = require('humanize-number'),
-    bytes = require('bytes')
+let log4js = require('koa-log4')
+let logger = log4js.getLogger('middleware')
+// eslint-disable-next-line no-unused-vars
+let colors = require('colors')
+let Counter = require('passthrough-counter')
+let humanize = require('humanize-number')
+let bytes = require('bytes')
 
 const colorCodes = {
     5: 'red',
@@ -46,8 +46,8 @@ export default async function (ctx, next) {
             res.removeListener('finish', onfinish)
             res.removeListener('close', onclose)
 
-            let showLength = '',
-                len = counter ? counter.length : length
+            let showLength = ''
+            let len = counter ? counter.length : length
             if (~[204, 205, 304].indexOf(ctx.status)) {
                 showLength = ''
             } else if (len == null) {
@@ -67,8 +67,8 @@ export default async function (ctx, next) {
 
 function formatStatusCode (status) {
     status = status.toString()
-    let s = status / 100 | 0,
-        color = colorCodes[s]
+    let s = status / 100 | 0
+    let color = colorCodes[s]
 
     return status[color]
 }
