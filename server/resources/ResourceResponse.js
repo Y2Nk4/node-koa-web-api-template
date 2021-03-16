@@ -1,4 +1,4 @@
-export default function (map) {
+module.exports = function (map) {
     return function (res) {
         if (res === undefined || res === null) {
             return res

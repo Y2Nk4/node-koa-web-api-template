@@ -15,7 +15,7 @@ const colorCodes = {
     0: 'yellow'
 }
 
-export default async function (ctx, next) {
+module.exports = async function (ctx, next) {
     let start = new Date()
     logger.info(`${'client -->'.gray} %s %s`, ctx.method, ctx.originalUrl.gray)
 

@@ -1,7 +1,7 @@
-import user from '../../controllers/user.js'
-import koaRouter from 'koa-router'
+let user = require('../../controllers/user.js')
+let koaRouter = require('koa-router')
 const router = koaRouter()
 
 router.get('/info', user.getUserInfo) // 定义url的参数是id
 
-export default router
+module.exports = router

@@ -6,8 +6,8 @@
  *
  * */
 
-import Service from '../models/Service'
-import User from '../models/User'
+let Service = require('../models/Service')
+let User = require('../models/User')
 
 User.hasMany(Service, {
     as: 'Services',

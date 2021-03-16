@@ -1,22 +1,19 @@
-import './env'
-import Koa from 'koa'
-import json from 'koa-json'
-import auth from './server/routes/auth.js'
-import api from './server/routes/api.js'
-import publicApi from './server/routes/public_api.js'
-import jwt from 'koa-jwt'
-import path from 'path'
-import serve from 'koa-static'
-import historyApiFallback from 'koa2-history-api-fallback'
-import koaRouter from 'koa-router'
-import koaBodyparser from 'koa-bodyparser'
-import KoaValidate from 'koa-validate'
-import responses from './server/helpers/responses'
-import accessLogger from './server/middlewares/accessLogger'
-import formatValidationError from './server/helpers/formatValidationError'
-
+require('./env')
+let Koa = require('koa')
+let json = require('koa-json')
+// let jwt = require('koa-jwt')
+let path = require('path')
+let serve = require('koa-static')
+let historyApiFallback = require('koa2-history-api-fallback')
+let koaBodyparser = require('koa-bodyparser')
+let KoaValidate = require('koa-validate')
+let responses = require('./server/helpers/responses')
+let accessLogger = require('./server/middlewares/accessLogger')
+let formatValidationError = require('./server/helpers/formatValidationError')
 // cors
 const cors = require('@koa/cors')
+// routes
+let appRoutes = require('./server/routes/routes.js')
 
 // log处理
 const log4js = require('koa-log4')
@@ -58,7 +55,6 @@ require('./server/config/db')
 require('./server/config/association')
 
 const app = new Koa()
-const router = koaRouter()
 KoaValidate(app)
 
 let port = process.env.PORT
@@ -124,11 +120,7 @@ app.on('error', function (err, ctx) {
     }
 })
 
-router.use('/auth', auth.routes()) // 挂载到koa-router上，同时会让所有的auth的请求路径前面加上'/auth'的请求路径。
-router.use('/api/public', publicApi.routes()) // 挂载到public_api上
-router.use('/api', jwt({secret: process.env.JWT_SECRET}), api.routes()) // 所有走/api/打头的请求都需要经过jwt验证。
-
-app.use(router.routes()) // 将路由规则挂载到Koa上。
+app.use(appRoutes.routes()) // 将路由规则挂载到Koa上。
 app.use(historyApiFallback())
 app.use(serve(path.resolve('dist'))) // 将webpack打包好的项目目录作为Koa静态文件服务的目录
 
